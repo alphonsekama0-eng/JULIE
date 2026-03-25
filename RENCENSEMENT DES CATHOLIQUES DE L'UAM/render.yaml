@@ -1,0 +1,22 @@
+databases:
+  - name: recensement-uam-db
+    plan: free
+
+services:
+  - type: web
+    name: recensement-uam
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: MANAGER_PASSWORD
+        sync: false
+      - key: FLASK_DEBUG
+        value: "0"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: recensement-uam-db
+          property: connectionString

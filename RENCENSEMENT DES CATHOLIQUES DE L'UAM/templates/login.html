@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% set title = "Connexion gérant" %}
+
+{% block content %}
+  <section class="card" style="max-width:520px;margin:0 auto;">
+    <h1 class="h1">Connexion gérant</h1>
+    <p class="muted">La page “Liste” est protégée.</p>
+
+    <form class="form" method="post" action="{{ url_for('login_post') }}">
+      <input type="hidden" name="next_url" value="{{ next_url | e }}" />
+
+      <div class="field">
+        <label for="password">Mot de passe</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="submit">Se connecter</button>
+        <a class="btn btn--secondary" href="{{ url_for('index') }}">Retour</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}
+

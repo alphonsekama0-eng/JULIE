@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title if title else "Recensement UAM (Catholiques)" }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header__inner">
+        <div class="brand">
+          <div class="brand__title">Recensement des catholiques</div>
+          <div class="brand__subtitle">UAM</div>
+        </div>
+        <nav class="nav">
+          <a class="nav__link" href="{{ url_for('index') }}">Formulaire</a>
+          <a class="nav__link" href="{{ url_for('liste') }}">Liste</a>
+          {% if session.get('manager_logged_in') %}
+            <form method="post" action="{{ url_for('logout') }}">
+              <button class="nav__link" type="submit" style="cursor:pointer;">Déconnexion</button>
+            </form>
+          {% else %}
+            <a class="nav__link" href="{{ url_for('login') }}">Connexion</a>
+          {% endif %}
+        </nav>
+      </div>
+    </header>
+
+    <main class="container main">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="toasts">
+            {% for category, message in messages %}
+              <div class="toast toast--{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <span>Base locale SQLite • {{ (config.get('ENV') or '') }}</span>
+      </div>
+    </footer>
+  </body>
+</html>
+
